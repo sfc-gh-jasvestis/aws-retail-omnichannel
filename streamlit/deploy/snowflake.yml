@@ -14,3 +14,4 @@ entities:
     stage: RETAIL_OMNICHANNEL.APP.STREAMLIT_STAGE
     artifacts:
       - streamlit_app.py
+      - environment.yml

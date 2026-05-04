@@ -50,6 +50,17 @@ if not channel_kpi.empty:
 
 st.divider()
 
+st.markdown("### Revenue Mix by Channel (Last 30 Days)")
+if not channel_kpi.empty:
+    channel_kpi["REVENUE"] = pd.to_numeric(channel_kpi["REVENUE"], errors="coerce")
+    fig_pie = px.pie(channel_kpi, values="REVENUE", names="CHANNEL_NAME",
+                     hole=0.4, title="Channel Revenue Share")
+    fig_pie.update_traces(textposition='inside', textinfo='percent+label')
+    fig_pie.update_layout(height=350, margin=dict(t=35, b=10), showlegend=False)
+    st.plotly_chart(fig_pie, use_container_width=True)
+
+st.divider()
+
 col_l, col_r = st.columns(2)
 with col_l:
     st.markdown("### Conversion Trend")
@@ -74,9 +85,52 @@ with col_r:
         ORDER BY ORDER_DATE
     """).to_pandas()
     if not orders_df.empty:
-        fig2 = px.area(orders_df, x="ORDER_DATE", y="ORDER_COUNT", color="CHANNEL_NAME", title="Daily Orders by Channel")
-        fig2.update_layout(height=350, margin=dict(t=35, b=10))
+        orders_df["ORDER_COUNT"] = pd.to_numeric(orders_df["ORDER_COUNT"], errors="coerce")
+        fig2 = px.line(orders_df, x="ORDER_DATE", y="ORDER_COUNT", color="CHANNEL_NAME", title="Daily Orders by Channel")
+        fig2.update_layout(height=350, margin=dict(t=35, b=10), yaxis_title="Orders")
         st.plotly_chart(fig2, use_container_width=True)
+
+st.divider()
+
+st.markdown("### Week-over-Week Channel Growth")
+wow_df = session.sql("""
+    SELECT CHANNEL_NAME,
+        SUM(CASE WHEN ORDER_DATE BETWEEN DATEADD('day', -14, CURRENT_DATE()) AND DATEADD('day', -8, CURRENT_DATE()) THEN ORDER_COUNT END) AS PREV_WEEK_ORDERS,
+        SUM(CASE WHEN ORDER_DATE >= DATEADD('day', -7, CURRENT_DATE()) THEN ORDER_COUNT END) AS THIS_WEEK_ORDERS,
+        SUM(CASE WHEN ORDER_DATE BETWEEN DATEADD('day', -14, CURRENT_DATE()) AND DATEADD('day', -8, CURRENT_DATE()) THEN REVENUE END) AS PREV_WEEK_REV,
+        SUM(CASE WHEN ORDER_DATE >= DATEADD('day', -7, CURRENT_DATE()) THEN REVENUE END) AS THIS_WEEK_REV
+    FROM RETAIL_OMNICHANNEL.CURATED.CHANNEL_PERFORMANCE
+    WHERE ORDER_DATE >= DATEADD('day', -14, CURRENT_DATE())
+    GROUP BY CHANNEL_NAME ORDER BY CHANNEL_NAME
+""").to_pandas()
+
+if not wow_df.empty:
+    for c in ["PREV_WEEK_ORDERS","THIS_WEEK_ORDERS","PREV_WEEK_REV","THIS_WEEK_REV"]:
+        wow_df[c] = pd.to_numeric(wow_df[c], errors="coerce")
+    wow_df["REV_CHANGE_PCT"] = ((wow_df["THIS_WEEK_REV"] - wow_df["PREV_WEEK_REV"]) / wow_df["PREV_WEEK_REV"] * 100).round(1)
+    wow_df = wow_df.sort_values("REV_CHANGE_PCT", ascending=True)
+    cols = st.columns(len(wow_df))
+    for i, (_, row) in enumerate(wow_df.iterrows()):
+        with cols[i]:
+            pct = float(row["REV_CHANGE_PCT"]) if pd.notna(row["REV_CHANGE_PCT"]) else 0
+            st.metric(row["CHANNEL_NAME"], f"{pct:+.1f}%", delta=f"{int(row['THIS_WEEK_ORDERS'])} orders this week")
+
+st.divider()
+
+st.markdown("### AOV Trend (Last 7 Days)")
+aov_df = session.sql("""
+    SELECT CHANNEL_NAME, ORDER_DATE, AOV
+    FROM RETAIL_OMNICHANNEL.CURATED.CHANNEL_PERFORMANCE
+    WHERE ORDER_DATE >= DATEADD('day', -7, CURRENT_DATE())
+    ORDER BY ORDER_DATE, CHANNEL_NAME
+""").to_pandas()
+
+if not aov_df.empty:
+    aov_df["AOV"] = pd.to_numeric(aov_df["AOV"], errors="coerce")
+    fig_aov = px.bar(aov_df, x="ORDER_DATE", y="AOV", color="CHANNEL_NAME",
+                     barmode="group", title="Daily AOV by Channel (7 Days)")
+    fig_aov.update_layout(height=350, margin=dict(t=35, b=10))
+    st.plotly_chart(fig_aov, use_container_width=True)
 
 st.divider()
 
@@ -101,7 +155,7 @@ st.divider()
 st.markdown("### Daily Ops Briefing")
 st.caption("Click Generate to have Bedrock write yesterday's operations summary")
 if st.button("Generate Ops Summary", type="primary"):
-    with st.spinner("Bedrock generating operations narrative..."):
+    with st.spinner("Generating operations narrative..."):
         summary_data = session.sql("""
             SELECT
                 (SELECT SUM(ORDER_COUNT) FROM RETAIL_OMNICHANNEL.CURATED.CHANNEL_PERFORMANCE WHERE ORDER_DATE = CURRENT_DATE() - 1) AS YESTERDAY_ORDERS,
@@ -118,7 +172,7 @@ if st.button("Generate Ops Summary", type="primary"):
 Include one recommendation."""
 
         safe_prompt = prompt.replace("'", "''")
-        result = session.sql(f"SELECT SNOWFLAKE.CORTEX.COMPLETE('claude-4-sonnet', '{safe_prompt}')").collect()[0][0]
+        result = session.sql(f"SELECT SNOWFLAKE.CORTEX.COMPLETE('claude-sonnet-4-5', '{safe_prompt}')").collect()[0][0]
         briefing = str(result).strip().strip('"').replace("\\n", "\n").replace('$', '\\$')
         st.info(briefing)
 
@@ -130,6 +184,7 @@ forecast_df = session.sql("""
     FROM RETAIL_OMNICHANNEL.ML.CHANNEL_FORECAST_RESULTS ORDER BY SERIES, TS
 """).to_pandas()
 if not forecast_df.empty:
+    forecast_df["PREDICTED_ORDERS"] = pd.to_numeric(forecast_df["PREDICTED_ORDERS"], errors="coerce")
     fig3 = px.line(forecast_df, x="FORECAST_DATE", y="PREDICTED_ORDERS", color="CHANNEL",
                   title="14-Day Order Forecast by Channel")
     fig3.update_layout(height=350, margin=dict(t=35, b=10))
