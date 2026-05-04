@@ -71,7 +71,7 @@ Single-scroll layout. No tabs. No pages. Everything visible. Scroll down for the
 
 ### [0:15–0:35] CHANNEL KPIS (Show: Scroll slightly to Channel KPI cards)
 
-> *"Six channels. In-Store leads revenue at [X]. Web is second. But look at Mobile — revenue is down. Conversion dropped 18% overnight. Something happened between midnight and 6am. That's the red flag."*
+> *"Six channels. In-Store leads revenue. Web is second. But look at Mobile — revenue is trailing. Scroll down to see why."*
 
 **Screen**: Point to each channel metric card. Emphasize the Mobile decline.
 
@@ -79,7 +79,7 @@ Single-scroll layout. No tabs. No pages. Everything visible. Scroll down for the
 
 ### [0:35–1:05] CONVERSION TREND + ORDER VOLUME (Show: Side-by-side Plotly charts)
 
-> *"Left chart — daily conversion rate by channel. See the Mobile line fall off a cliff on Tuesday? That's the 18% drop. Web held steady, Social Commerce actually ticked up. Right chart — order volume stacked by channel. Total volume is up 3% week-over-week, but the mix is shifting away from Mobile toward Web. If Mobile doesn't recover, we lose our highest-margin channel — Mobile App customers have 22% higher AOV than Web."*
+> *"Left chart — daily conversion rate by channel. Look for the channel with the steepest decline — that's the one ops needs to investigate. If Mobile drops, that's significant: Mobile App customers tend to have higher AOV. Right chart — order volume stacked by channel. Watch for mix shifts — if volume is moving from high-AOV channels to low-AOV, total revenue suffers even if order count holds."*
 
 **Screen**: Point to the conversion line chart, then the stacked area chart.
 
@@ -87,9 +87,7 @@ Single-scroll layout. No tabs. No pages. Everything visible. Scroll down for the
 
 ### [1:05–1:35] FULFILLMENT SLA (Show: Scroll to SLA progress bars)
 
-> *"Fulfillment SLA — the operational heartbeat. Ship-to-home: 82% on-time. BOPIS: 91% — that's above target. Curbside: 76%. That's 340 delayed orders. The Curbside SLA has been degrading for 3 days — not a one-time blip, a systemic issue.*
->
-> *The SNS alert fired 40 minutes ago. The ops team's Slack channel already has it. They've started rerouting curbside orders to in-store pickup at the affected locations."*
+> *"Fulfillment SLA — the operational heartbeat. Check each progress bar. Any type below 85% needs attention. Look at the delayed counts — those are real orders with real customers waiting. In production, a Snowflake ALERT monitors these thresholds and fires an SNS notification to the ops team's Slack channel automatically. No manual checking required."*
 
 **Screen**: Point to progress bars. Emphasize the Curbside bar being short of the target line.
 
@@ -101,9 +99,7 @@ Single-scroll layout. No tabs. No pages. Everything visible. Scroll down for the
 
 **Action**: Click "Generate Ops Summary". Wait 3-5 seconds.
 
-> *"4,200 orders across 6 channels. Mobile conversion down 18% — likely an app crash between 2 and 4am based on the session drop-off pattern. 3 curbside SLA breaches at stores 12, 27, and 41. Recommendation: investigate mobile app crash logs, reroute curbside overflow to in-store pickup at affected locations, and pre-position staff for the predicted volume spike next week.*
->
-> *That's not a report someone wrote. Bedrock synthesized it from Dynamic Table data in 4 seconds. Copy, paste into Slack, done."*
+> *"Bedrock reads the metrics and writes a concise briefing — order volume, top channel, any SLA issues, and a recommendation. The exact content adapts to yesterday's actual data. Copy, paste into Slack, done."*
 
 ---
 
@@ -117,7 +113,7 @@ Single-scroll layout. No tabs. No pages. Everything visible. Scroll down for the
 
 ### [2:20–2:30] CLOSE (Stay on: Forecast chart)
 
-> *"Clickstream ingested in under 60 seconds. SLA breach detected and alerted in 40 minutes. Bedrock wrote the morning briefing. ML says prepare for next week. That's the difference between a dashboard you check once a day — and a command center that runs your operations."*
+> *"Clickstream ingested in under 60 seconds. SLA thresholds monitored with SNS alerts. Bedrock wrote the morning briefing. ML says prepare for next week. That's the difference between a dashboard you check once a day — and a command center that runs your operations."*
 
 ---
 
