@@ -1,0 +1,16 @@
+definition_version: 2
+
+entities:
+  omnichannel_ops_app:
+    type: streamlit
+    identifier:
+      name: OMNICHANNEL_OPS_APP
+      schema: APP
+      database: RETAIL_OMNICHANNEL
+    title: "Omnichannel Ops Command Center"
+    comment: "Single-scroll dashboard — Snowpipe + SNS + Bedrock"
+    query_warehouse: WH_OMNICHANNEL
+    main_file: streamlit_app.py
+    stage: RETAIL_OMNICHANNEL.APP.STREAMLIT_STAGE
+    artifacts:
+      - streamlit_app.py
