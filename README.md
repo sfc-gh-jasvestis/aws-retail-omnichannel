@@ -1,17 +1,6 @@
 # Omnichannel Analytics — Ops Command Center
-### Snowflake + Snowpipe + SNS + Claude + QuickSight | Retail/CPG
 
-> A real-time operations dashboard — clickstream auto-ingested via Snowpipe, SLA breach alerts via SNS, and AI-generated daily briefings via Claude (Cortex COMPLETE). No tabs. Single-scroll. Built for speed.
-
-## Key Differentiators
-
-- **Single-scroll layout** (no tabs, no pages — entire ops view visible by scrolling)
-- **Real-time ticker** hero — live order feed at the top
-- **WoW growth detection** — instantly spots underperforming channels
-- **Snowpipe + SNS** — event-driven clickstream ingestion
-- **Claude daily briefing** — AI generates yesterday's ops narrative
-- **Progress bars** for SLA compliance — visual, immediate
-- **No Cortex Search** — ops needs speed, not document search
+Real-time operations dashboard — clickstream auto-ingested via Snowpipe, SLA breach alerts via SNS, and AI-generated daily briefings via Claude (Cortex COMPLETE). Single-scroll layout built for speed.
 
 ## Architecture
 
@@ -29,11 +18,17 @@ flowchart LR
     SF --> QS[QuickSight + Amazon Q]
 ```
 
+## Personas
+
+| Persona | Role | Key Questions |
+|---------|------|---------------|
+| **Ops Manager** | Digital operations lead | "Which channels are underperforming WoW?" "Are we meeting fulfillment SLAs?" |
+| **VP Digital** | Omnichannel strategy executive | "What's our conversion rate by channel?" "Where should we invest next?" |
 
 ## Data
 
-| Table | Rows | Content |
-|---|---|---|
+| Table | Rows | Description |
+|-------|------|-------------|
 | CHANNELS | 6 | In-Store, Web, Mobile App, Marketplace, Social Commerce, Phone |
 | CUSTOMERS | 5,000 | APJ customers with primary channel preference |
 | ORDERS | 100,000 | Multi-channel orders with fulfillment type |
@@ -41,37 +36,38 @@ flowchart LR
 | WEB_SESSIONS | 500,000 | Clickstream: pages, duration, conversion |
 | RETURN_POLICIES | 30 | Channel-specific return policy documents |
 
-## Streamlit Sections (single-scroll, 10 sections)
+## Build Instructions
 
-| Section | Visual | Data Source |
-|---|---|---|
-| Live Order Feed | 4 metric cards (latest orders) | RAW.ORDERS |
-| Channel KPIs | Large metrics per channel | CHANNEL_PERFORMANCE DT |
-| Revenue Mix | Plotly donut chart (channel share) | CHANNEL_PERFORMANCE DT |
-| Conversion Trend | Plotly line chart by channel | CONVERSION_METRICS DT |
-| Orders by Channel | Plotly stacked area chart | CHANNEL_PERFORMANCE DT |
-| WoW Growth | 6 metric cards (weekly % change) | CHANNEL_PERFORMANCE DT |
-| AOV Trend | Plotly grouped bar chart (7d) | CHANNEL_PERFORMANCE DT |
-| Fulfillment SLA | Progress bars + metrics per type | FULFILLMENT_PERFORMANCE DT |
-| Daily Briefing | Claude-generated narrative | Cortex COMPLETE (claude-sonnet-4-5) |
-| Channel Forecast | Plotly line chart (14-day) | ML FORECAST |
+### Prerequisites
+- Snowflake account with ACCOUNTADMIN access
+- Cortex AI enabled (ML Functions, Search, Agent)
+- Warehouse: CORTEX (Medium)
 
-## QuickSight (VP Digital Persona)
-
-3 datasets deployed via `quicksight/deploy.sh`:
-- **omni-channel-performance** — revenue, orders, AOV by channel/day
-- **omni-fulfillment-sla** — SLA% by type and week
-- **omni-conversion-metrics** — sessions, conversion rate by channel/day
-
-Q Topic: `omnichannel-q-topic` with channel, fulfillment, and conversion synonyms.
+### Deployment
 
 ```bash
-export AWS_ACCOUNT_ID=__AWS_ACCOUNT_ID__
-export QS_DATASOURCE_ID=<your-snowflake-datasource-id>
-export QS_USER_ARN=<your-quicksight-user-arn>
-bash quicksight/deploy.sh
+snowsql -f snowflake/00_setup.sql
+snowsql -f snowflake/01_raw_tables.sql
+snowsql -f snowflake/02_staging.sql
+snowsql -f snowflake/03_dynamic_tables.sql
+snowsql -f snowflake/04_search.sql
+snowsql -f snowflake/05_ml_models.sql
+snowsql -f snowflake/06_semantic_view.sql
+snowsql -f snowflake/07_agent.sql
 ```
 
-## Legal
+### Streamlit App
+```
+RETAIL_OMNICHANNEL.APP.OMNICHANNEL_OPS_APP
+```
 
-This is a personal project and is **not an official Snowflake offering**.
+## Key Demo Numbers
+
+- **500,000 clickstream events** auto-ingested via Snowpipe
+- **6 channels** tracked in real-time with WoW growth detection
+- **Claude daily briefing** — AI-generated ops narrative every morning
+- **SNS SLA alerts** — breach notifications pushed to operations team
+
+## License
+
+Apache 2.0 — See [LICENSE](LICENSE) for details.
