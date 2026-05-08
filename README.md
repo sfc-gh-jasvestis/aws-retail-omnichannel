@@ -15,28 +15,20 @@
 
 ## Architecture
 
+A real-time omnichannel ops command center built on **Snowflake** (Snowpipe, Dynamic Tables, ML.FORECAST, Cortex Complete) and **AWS** (S3, SNS, QuickSight + Amazon Q). Clickstream auto-ingests via Snowpipe; SLA breaches fan out via SNS; Claude (via Cortex Complete) writes the daily ops briefing.
+
+```mermaid
+flowchart LR
+    S3[S3 clickstream JSON] --> SNSIn[SNS notification]
+    SNSIn --> SP[Snowpipe auto-ingest]
+    SP --> SF[Snowflake Dynamic Tables CHANNEL / FULFILLMENT / CONVERSION]
+    SF --> ML[ML.FORECAST 14d orders]
+    SF --> CC[Cortex Complete daily ops narrative]
+    SF --> SNSOut[SNS outbound SLA breach alerts]
+    SF --> ST[Streamlit single-scroll Ops]
+    SF --> QS[QuickSight + Amazon Q]
 ```
-S3 (clickstream JSON) → SNS → Snowpipe → RAW.WEB_SESSIONS (500K sessions)
-RAW (channels, customers, orders, fulfillments, return_policies)
-         │
-         ▼
-Dynamic Tables (5 min):
-├── CHANNEL_PERFORMANCE (orders + revenue by channel/day)
-├── FULFILLMENT_PERFORMANCE (SLA by type: ship/BOPIS/curbside)
-└── CONVERSION_METRICS (conversion rate by channel/day)
-         │
-    ┌────┴────┐
-    ▼         ▼
-ML FORECAST   Claude (Cortex)
-(14d orders)  (daily ops narrative)
-         │
-         ▼
-SNS outbound → SLA breach alerts
-         │
-         ▼
-Streamlit (single-scroll) → QuickSight + Q
-(Ops Manager)               (VP Digital)
-```
+
 
 ## Data
 
