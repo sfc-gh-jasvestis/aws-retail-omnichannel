@@ -18,6 +18,27 @@ flowchart LR
     SF --> QS[QuickSight + Amazon Q]
 ```
 
+## Snowflake Capabilities
+
+| Capability | Implementation |
+|-----------|---------------|
+| Dynamic Tables | CHANNEL_PERFORMANCE / FULFILLMENT_PERFORMANCE / CONVERSION_METRICS |
+| ML Functions | ML.FORECAST 14-day order volume by channel |
+| Cortex AI | Claude (Cortex COMPLETE) daily ops narrative generation |
+| Cortex Agent | OmnichannelAnalyst + PolicySearch tools |
+| Semantic View | Structured analytics over channels, fulfillment, conversion |
+| Streamlit | Single-scroll ops command center with live ticker |
+| Snowpipe | Auto-ingest clickstream JSON from S3 |
+
+## AWS Services
+
+| Service | Role in Demo |
+|---------|-------------|
+| Amazon S3 | Clickstream data landing zone |
+| Amazon SNS | SLA breach alert push to operations team |
+| Amazon QuickSight | Executive omnichannel performance dashboard |
+| Amazon Q | Natural language analytics for VP Digital |
+
 ## Personas
 
 | Persona | Role | Key Questions |
