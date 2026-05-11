@@ -6,9 +6,9 @@ import tempfile
 import os
 
 REGION = "us-west-2"
-ACCT = "__AWS_ACCOUNT_ID__"
-DS_ARN = "arn:aws:quicksight:us-west-2:__AWS_ACCOUNT_ID__:datasource/fsi-snowflake-ds"
-USER_ARN = "arn:aws:quicksight:us-west-2:__AWS_ACCOUNT_ID__:user/default/__AWS_ACCOUNT_ID__"
+ACCT = os.environ["AWS_ACCOUNT_ID"]
+DS_ARN = f"arn:aws:quicksight:us-west-2:{ACCT}:datasource/fsi-snowflake-ds"
+USER_ARN = f"arn:aws:quicksight:us-west-2:{ACCT}:user/default/{ACCT}"
 ANALYSIS_ID = "omni-analysis"
 
 PERMS = [{"Principal": USER_ARN, "Actions": [

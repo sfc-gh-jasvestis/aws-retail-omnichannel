@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REGION="us-west-2"
-ACCT=${AWS_ACCOUNT_ID:-"__AWS_ACCOUNT_ID__"}
+ACCT=$(aws sts get-caller-identity --query Account --output text)
 DS_ARN="arn:aws:quicksight:${REGION}:${ACCT}:datasource/fsi-snowflake-ds"
 QS_USER_ARN="arn:aws:quicksight:${REGION}:${ACCT}:user/default/${ACCT}"
 
