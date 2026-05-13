@@ -82,6 +82,14 @@ snowsql -f snowflake/07_agent.sql
 RETAIL_OMNICHANNEL.APP.OMNICHANNEL_OPS_APP
 ```
 
+## Build Modes
+
+### Snowflake Only
+Run the SQL scripts in `snowflake/` (skip `01_integrations.sql`) and deploy the Streamlit app from `streamlit/deploy/`. Uses Cortex AI instead of Bedrock, and Snowflake Intelligence instead of QuickSight.
+
+### Full AWS + Snowflake
+Run all SQL scripts including `01_integrations.sql`, deploy the main Streamlit app from `streamlit/`, then run the QuickSight setup from `quicksight/`.
+
 ## Key Demo Numbers
 
 - **500,000 clickstream events** auto-ingested via Snowpipe
