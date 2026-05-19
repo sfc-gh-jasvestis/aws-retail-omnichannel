@@ -98,6 +98,8 @@ Industry research and Snowflake customer outcomes:
 - **Tapestry** (Coach, Kate Spade -- Snowflake customer): unified customer analytics across channels, 4B+ rows daily -- snowflake.com/customers
 - **Unified channel analytics** reduces marketing waste by 20-40% -- McKinsey
 
+- **Tapestry** unified customer analytics across all channels with 4B+ rows processed daily on Snowflake -- snowflake.com/customers
+
 ## Key Demo Numbers
 
 - **500,000 clickstream events** auto-ingested via Snowpipe
