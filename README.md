@@ -95,10 +95,10 @@ Run all SQL scripts including `01_integrations.sql`, deploy the main Streamlit a
 Industry research and Snowflake customer outcomes:
 - **Omnichannel customers** spend 30% more than single-channel shoppers -- Harvard Business Review
 - **AI fulfillment routing** improves SLA compliance by 15-25% -- Industry benchmark
-- **Tapestry** (Coach, Kate Spade -- Snowflake customer): unified customer analytics across channels, 4B+ rows daily -- snowflake.com/customers
+- **Tapestry** (Coach, Kate Spade -- Snowflake customer): unified customer analytics across channels, 4B+ rows daily -- [snowflake.com/customers/tapestry](https://www.snowflake.com/en/customers/all-customers/case-study/tapestry/)
 - **Unified channel analytics** reduces marketing waste by 20-40% -- McKinsey
 
-- **Tapestry** unified customer analytics across all channels with 4B+ rows processed daily on Snowflake -- snowflake.com/customers
+- **Tapestry** unified customer analytics across all channels with 4B+ rows processed daily on Snowflake -- [snowflake.com/customers/tapestry](https://www.snowflake.com/en/customers/all-customers/case-study/tapestry/)
 
 ## Key Demo Numbers
 
