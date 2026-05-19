@@ -90,6 +90,14 @@ Run the SQL scripts in `snowflake/` (skip `01_integrations.sql`) and deploy the 
 ### Full AWS + Snowflake
 Run all SQL scripts including `01_integrations.sql`, deploy the main Streamlit app from `streamlit/`, then run the QuickSight setup from `quicksight/`.
 
+## Business Impact
+
+Industry research and Snowflake customer outcomes:
+- **Omnichannel customers** spend 30% more than single-channel shoppers -- Harvard Business Review
+- **AI fulfillment routing** improves SLA compliance by 15-25% -- Industry benchmark
+- **Tapestry** (Coach, Kate Spade -- Snowflake customer): unified customer analytics across channels, 4B+ rows daily -- snowflake.com/customers
+- **Unified channel analytics** reduces marketing waste by 20-40% -- McKinsey
+
 ## Key Demo Numbers
 
 - **500,000 clickstream events** auto-ingested via Snowpipe
@@ -100,3 +108,5 @@ Run all SQL scripts including `01_integrations.sql`, deploy the main Streamlit a
 ## License
 
 Apache 2.0 — See [LICENSE](LICENSE) for details.
+
+This is a personal demo project and is not an official Snowflake offering. It comes with no support or warranty. Industry metrics cited are from publicly available third-party research and Snowflake customer stories; they represent reported outcomes and are not guarantees of results.
