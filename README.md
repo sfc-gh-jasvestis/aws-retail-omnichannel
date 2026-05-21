@@ -93,12 +93,11 @@ Run all SQL scripts including `01_integrations.sql`, deploy the main Streamlit a
 ## Business Impact
 
 Industry research and Snowflake customer outcomes:
-- **Omnichannel customers** spend 30% more than single-channel shoppers -- Harvard Business Review
-- **AI fulfillment routing** improves SLA compliance by 15-25% -- Industry benchmark
-- **Tapestry** (Coach, Kate Spade -- Snowflake customer): unified customer analytics across channels, 4B+ rows daily -- [snowflake.com/customers/tapestry](https://www.snowflake.com/en/customers/all-customers/case-study/tapestry/)
-- **Unified channel analytics** reduces marketing waste by 20-40% -- McKinsey
+- **Omnichannel customers** spend 30% more than single-channel shoppers -- [Harvard Business Review](https://hbr.org/2017/01/a-study-of-46000-shoppers-shows-that-omnichannel-retailing-works)
+- **AI fulfillment routing** improves SLA compliance by 15-25% -- [Industry benchmark](https://www.mckinsey.com/capabilities/operations/our-insights)
+- **Kraft Heinz** uses Snowflake data sharing to collaborate with retail partners on real-time category and shelf analytics -- [snowflake.com/blog/kraft-heinz](https://www.snowflake.com/en/blog/kraft-heinz-fosters-collaboration-retail-partners/)
+- **Unified channel analytics** reduces marketing waste by 20-40% -- [McKinsey](https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights)
 
-- **Tapestry** unified customer analytics across all channels with 4B+ rows processed daily on Snowflake -- [snowflake.com/customers/tapestry](https://www.snowflake.com/en/customers/all-customers/case-study/tapestry/)
 
 ## Key Demo Numbers
 
